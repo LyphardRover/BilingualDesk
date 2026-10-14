@@ -58,12 +58,28 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		22BD69B38B3520854B20630F /* Exceptions for "BilingualDesk" folder in "BilingualDeskWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Shared/AppText.swift,
+				Shared/SharedConfiguration.swift,
+			);
+			target = D627CACEBFAAA465612B83CD /* BilingualDeskWidgetExtension */;
+		};
 		43C305F773C82B8B0D14F19F /* Exceptions for "BilingualDesk" folder in "BilingualDesk" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = F01C2E624E08A72BC055B46F /* BilingualDesk */;
+		};
+		5AC5F71D10B964852AD84E09 /* Exceptions for "BilingualDesk" folder in "BilingualDeskShare" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Shared/AppText.swift,
+				Shared/SharedConfiguration.swift,
+			);
+			target = 4C746F2D699A031CE4B1870E /* BilingualDeskShare */;
 		};
 		6C92C92ADE9347568E83229A /* Exceptions for "BilingualDeskWidget" folder in "BilingualDeskWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -99,6 +115,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				43C305F773C82B8B0D14F19F /* Exceptions for "BilingualDesk" folder in "BilingualDesk" target */,
+				5AC5F71D10B964852AD84E09 /* Exceptions for "BilingualDesk" folder in "BilingualDeskShare" target */,
+				22BD69B38B3520854B20630F /* Exceptions for "BilingualDesk" folder in "BilingualDeskWidgetExtension" target */,
 			);
 			path = BilingualDesk;
 			sourceTree = "<group>";
