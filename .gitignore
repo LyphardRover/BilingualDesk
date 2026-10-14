@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode 用户状态与构建产物
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+DerivedData/
+build/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+*.xcresult
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager（本项目不用第三方库，防止误生成）
+.swiftpm/
+.build/
+
+# 读者自己的英文小说不进 Git（A3 仓库可能公开）
+*.txt
+!BilingualDeskSample.txt
+
+# 演示视频不进仓库（08 §3.7）
+*.mov
+*.mp4
+
+# 本地临时文件
+*.swp
+*~
+.env
+
+# A3 报告草稿与 PDF（WP10 打 tag 之后才写，不进仓库；PDF 在 Canvas 单独提交）
+docs/report/

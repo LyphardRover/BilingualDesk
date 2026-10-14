@@ -1,0 +1,841 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		53F85E2D092373A8A32EB350 /* BilingualDeskWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0FD7488223EA0E20BD335592 /* BilingualDeskWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7AB2EAB619E012AE3A0D1C3D /* BilingualDeskShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D19A380E8D1B60AB2B8E8BE4 /* BilingualDeskShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		42D35AEE37CAE24089D46183 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C746F2D699A031CE4B1870E;
+			remoteInfo = BilingualDeskShare;
+		};
+		53F511E3872C09ACE96AEB40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F01C2E624E08A72BC055B46F;
+			remoteInfo = BilingualDesk;
+		};
+		E5D5E092EF6F929627BA6054 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D627CACEBFAAA465612B83CD;
+			remoteInfo = BilingualDeskWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6B461CD41EA51ABC93F86EC9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7AB2EAB619E012AE3A0D1C3D /* BilingualDeskShare.appex in Embed Foundation Extensions */,
+				53F85E2D092373A8A32EB350 /* BilingualDeskWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0FD7488223EA0E20BD335592 /* BilingualDeskWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BilingualDeskWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		996AD237BC284D463E664FFE /* BilingualDesk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilingualDesk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD5FEB36355BB38F98691943 /* BilingualDeskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilingualDeskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D19A380E8D1B60AB2B8E8BE4 /* BilingualDeskShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BilingualDeskShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		43C305F773C82B8B0D14F19F /* Exceptions for "BilingualDesk" folder in "BilingualDesk" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F01C2E624E08A72BC055B46F /* BilingualDesk */;
+		};
+		6C92C92ADE9347568E83229A /* Exceptions for "BilingualDeskWidget" folder in "BilingualDeskWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D627CACEBFAAA465612B83CD /* BilingualDeskWidgetExtension */;
+		};
+		F210EC119CD2F06E5C086223 /* Exceptions for "BilingualDeskShare" folder in "BilingualDeskShare" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4C746F2D699A031CE4B1870E /* BilingualDeskShare */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		36D4366D5C287D6D684A6517 /* BilingualDeskWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6C92C92ADE9347568E83229A /* Exceptions for "BilingualDeskWidget" folder in "BilingualDeskWidgetExtension" target */,
+			);
+			path = BilingualDeskWidget;
+			sourceTree = "<group>";
+		};
+		74C516F54B64C6B29F4F3717 /* BilingualDeskTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BilingualDeskTests;
+			sourceTree = "<group>";
+		};
+		C77E3C2BD92658F710989DA6 /* BilingualDesk */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				43C305F773C82B8B0D14F19F /* Exceptions for "BilingualDesk" folder in "BilingualDesk" target */,
+			);
+			path = BilingualDesk;
+			sourceTree = "<group>";
+		};
+		D82809053B0FB0C6D197693C /* BilingualDeskShare */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F210EC119CD2F06E5C086223 /* Exceptions for "BilingualDeskShare" folder in "BilingualDeskShare" target */,
+			);
+			path = BilingualDeskShare;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0F87A878AEB94E823836E22B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83A70A72DE2B4350BCF1FBEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2459633578009F3E492FB24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F39E1ABA01090769E80EC9B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		113236722DEE1DC96F378B9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				996AD237BC284D463E664FFE /* BilingualDesk.app */,
+				D19A380E8D1B60AB2B8E8BE4 /* BilingualDeskShare.appex */,
+				0FD7488223EA0E20BD335592 /* BilingualDeskWidgetExtension.appex */,
+				BD5FEB36355BB38F98691943 /* BilingualDeskTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		71DC27D9F8E3B109C877BFC4 = {
+			isa = PBXGroup;
+			children = (
+				C77E3C2BD92658F710989DA6 /* BilingualDesk */,
+				D82809053B0FB0C6D197693C /* BilingualDeskShare */,
+				36D4366D5C287D6D684A6517 /* BilingualDeskWidget */,
+				74C516F54B64C6B29F4F3717 /* BilingualDeskTests */,
+				113236722DEE1DC96F378B9D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4C746F2D699A031CE4B1870E /* BilingualDeskShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC4BA9F7EDD967BA4E15565B /* Build configuration list for PBXNativeTarget "BilingualDeskShare" */;
+			buildPhases = (
+				7027AE5E663175237C470C2F /* Sources */,
+				83A70A72DE2B4350BCF1FBEC /* Frameworks */,
+				2B0AA871D7E4D06810EEF4AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D82809053B0FB0C6D197693C /* BilingualDeskShare */,
+			);
+			name = BilingualDeskShare;
+			packageProductDependencies = (
+			);
+			productName = BilingualDeskShare;
+			productReference = D19A380E8D1B60AB2B8E8BE4 /* BilingualDeskShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C706FA839F4C1F2316B35783 /* BilingualDeskTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2B3EBA12D45501240AF7129 /* Build configuration list for PBXNativeTarget "BilingualDeskTests" */;
+			buildPhases = (
+				0DEFAA72CB497F18EDFACB40 /* Sources */,
+				F39E1ABA01090769E80EC9B8 /* Frameworks */,
+				006284C626CBB21CC139AED9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EB0842AD6199EF51F11D262E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				74C516F54B64C6B29F4F3717 /* BilingualDeskTests */,
+			);
+			name = BilingualDeskTests;
+			packageProductDependencies = (
+			);
+			productName = BilingualDeskTests;
+			productReference = BD5FEB36355BB38F98691943 /* BilingualDeskTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D627CACEBFAAA465612B83CD /* BilingualDeskWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A16DCA773FDC0D7CD6281918 /* Build configuration list for PBXNativeTarget "BilingualDeskWidgetExtension" */;
+			buildPhases = (
+				E2F56E4F641B0C97C58C11A5 /* Sources */,
+				F2459633578009F3E492FB24 /* Frameworks */,
+				8894B6517AEC09E6A28B351A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				36D4366D5C287D6D684A6517 /* BilingualDeskWidget */,
+			);
+			name = BilingualDeskWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = BilingualDeskWidgetExtension;
+			productReference = 0FD7488223EA0E20BD335592 /* BilingualDeskWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		F01C2E624E08A72BC055B46F /* BilingualDesk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A25A21380B352A4D587DB751 /* Build configuration list for PBXNativeTarget "BilingualDesk" */;
+			buildPhases = (
+				6B366E3A6159DC0A46CE6169 /* Sources */,
+				0F87A878AEB94E823836E22B /* Frameworks */,
+				34E903FB6EA77173817200D0 /* Resources */,
+				6B461CD41EA51ABC93F86EC9 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57ED66AB665A806DF29E2036 /* PBXTargetDependency */,
+				F7CF675ECD027FC8DD39CE07 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C77E3C2BD92658F710989DA6 /* BilingualDesk */,
+			);
+			name = BilingualDesk;
+			packageProductDependencies = (
+			);
+			productName = BilingualDesk;
+			productReference = 996AD237BC284D463E664FFE /* BilingualDesk.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					4C746F2D699A031CE4B1870E = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					C706FA839F4C1F2316B35783 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = F01C2E624E08A72BC055B46F;
+					};
+					D627CACEBFAAA465612B83CD = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					F01C2E624E08A72BC055B46F = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = 946392D46B65BE2E368A0D3B /* Build configuration list for PBXProject "BilingualDesk" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 71DC27D9F8E3B109C877BFC4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 113236722DEE1DC96F378B9D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F01C2E624E08A72BC055B46F /* BilingualDesk */,
+				4C746F2D699A031CE4B1870E /* BilingualDeskShare */,
+				D627CACEBFAAA465612B83CD /* BilingualDeskWidgetExtension */,
+				C706FA839F4C1F2316B35783 /* BilingualDeskTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		006284C626CBB21CC139AED9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B0AA871D7E4D06810EEF4AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34E903FB6EA77173817200D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8894B6517AEC09E6A28B351A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0DEFAA72CB497F18EDFACB40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B366E3A6159DC0A46CE6169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7027AE5E663175237C470C2F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F56E4F641B0C97C58C11A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		57ED66AB665A806DF29E2036 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C746F2D699A031CE4B1870E /* BilingualDeskShare */;
+			targetProxy = 42D35AEE37CAE24089D46183 /* PBXContainerItemProxy */;
+		};
+		EB0842AD6199EF51F11D262E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F01C2E624E08A72BC055B46F /* BilingualDesk */;
+			targetProxy = 53F511E3872C09ACE96AEB40 /* PBXContainerItemProxy */;
+		};
+		F7CF675ECD027FC8DD39CE07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D627CACEBFAAA465612B83CD /* BilingualDeskWidgetExtension */;
+			targetProxy = E5D5E092EF6F929627BA6054 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0D3DDC87FF28B3A52DA77360 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDeskTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BilingualDesk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BilingualDesk";
+			};
+			name = Release;
+		};
+		141A1970190F1E47100DDDA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDeskTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BilingualDesk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BilingualDesk";
+			};
+			name = Debug;
+		};
+		220AD314F5D9198885D58D78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = BilingualDeskShare/BilingualDeskShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BilingualDeskShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BilingualDesk;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDesk.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		26A47B94BBE404BB1704FCC5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = BilingualDeskShare/BilingualDeskShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BilingualDeskShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BilingualDesk;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDesk.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		3364EDEBD260CBF339B52DD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BilingualDesk/BilingualDesk.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BilingualDesk/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BilingualDesk;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDesk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		5CD193DFD8A5008B34863530 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BilingualDesk/BilingualDesk.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BilingualDesk/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BilingualDesk;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDesk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		5E1134544568A0C1B09E583D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 6568U97562;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		7A720E692FD833D55A462C47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = BilingualDeskWidget/BilingualDeskWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BilingualDeskWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BilingualDeskWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDesk.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		B3AFDE6F970A0432673383DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6568U97562;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E02455AB57D1D664BAE6205B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = BilingualDeskWidget/BilingualDeskWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6568U97562;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BilingualDeskWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BilingualDeskWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.William.BilingualDesk.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		946392D46B65BE2E368A0D3B /* Build configuration list for PBXProject "BilingualDesk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E1134544568A0C1B09E583D /* Debug */,
+				B3AFDE6F970A0432673383DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A16DCA773FDC0D7CD6281918 /* Build configuration list for PBXNativeTarget "BilingualDeskWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E02455AB57D1D664BAE6205B /* Debug */,
+				7A720E692FD833D55A462C47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A25A21380B352A4D587DB751 /* Build configuration list for PBXNativeTarget "BilingualDesk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CD193DFD8A5008B34863530 /* Debug */,
+				3364EDEBD260CBF339B52DD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC4BA9F7EDD967BA4E15565B /* Build configuration list for PBXNativeTarget "BilingualDeskShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				220AD314F5D9198885D58D78 /* Debug */,
+				26A47B94BBE404BB1704FCC5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2B3EBA12D45501240AF7129 /* Build configuration list for PBXNativeTarget "BilingualDeskTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				141A1970190F1E47100DDDA6 /* Debug */,
+				0D3DDC87FF28B3A52DA77360 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}
