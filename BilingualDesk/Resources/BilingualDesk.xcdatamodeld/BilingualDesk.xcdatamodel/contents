@@ -1,0 +1,58 @@
+<!-- File: BilingualDesk/Resources/BilingualDesk.xcdatamodeld/BilingualDesk.xcdatamodel/contents -->
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788" systemVersion="25A354" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Book" representedClassName="BookEntity" syncable="YES">
+        <attribute name="bilingualMode" attributeType="String" defaultValueString="bilingual"/>
+        <attribute name="contentHash" attributeType="String"/>
+        <attribute name="encodingName" attributeType="String" defaultValueString="UTF-8"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="importedAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="lastOpenedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="paragraphCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="readingParagraphOrder" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="splitRule" attributeType="String" defaultValueString="blankLine"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="cards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="VocabularyCard" inverseName="sourceBook" inverseEntity="VocabularyCard"/>
+        <relationship name="paragraphs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReadingParagraph" inverseName="book" inverseEntity="ReadingParagraph"/>
+        <fetchIndex name="byContentHash">
+            <fetchIndexElement property="contentHash" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="ReadingParagraph" representedClassName="ReadingParagraphEntity" syncable="YES">
+        <attribute name="chapterIndex" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="chapterTitle" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isChapterHeading" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sourceHash" attributeType="String"/>
+        <attribute name="text" attributeType="String"/>
+        <attribute name="translatedSourceHash" optional="YES" attributeType="String"/>
+        <attribute name="translatedText" optional="YES" attributeType="String"/>
+        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="paragraphs" inverseEntity="Book"/>
+        <relationship name="cards" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="VocabularyCard" inverseName="sourceParagraph" inverseEntity="VocabularyCard"/>
+        <fetchIndex name="byBookAndOrder">
+            <fetchIndexElement property="book" type="Binary" order="ascending"/>
+            <fetchIndexElement property="order" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="VocabularyCard" representedClassName="VocabularyCardEntity" syncable="YES">
+        <attribute name="contextText" attributeType="String"/>
+        <attribute name="contextTranslation" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="hintStatus" attributeType="String" defaultValueString="pending"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="machineHint" optional="YES" attributeType="String"/>
+        <attribute name="selectedText" attributeType="String"/>
+        <attribute name="selectionLength" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="selectionLocation" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sourceBookID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="sourceBookTitle" attributeType="String"/>
+        <attribute name="sourceParagraphOrder" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="updatedAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="userMeaningOverride" optional="YES" attributeType="String"/>
+        <relationship name="sourceBook" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="cards" inverseEntity="Book"/>
+        <relationship name="sourceParagraph" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ReadingParagraph" inverseName="cards" inverseEntity="ReadingParagraph"/>
+        <fetchIndex name="byCreatedAt">
+            <fetchIndexElement property="createdAt" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+</model>
