@@ -62,6 +62,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Shared/AppText.swift,
+				Shared/DeepLink.swift,
 				Shared/SharedConfiguration.swift,
 			);
 			target = D627CACEBFAAA465612B83CD /* BilingualDeskWidgetExtension */;
