@@ -1,74 +1,78 @@
-//
-//  BilingualDeskWidget.swift
-//  BilingualDeskWidget
-//
-//  Created by William on 2026/10/14.
-//
-
+// File: BilingualDeskWidget/BilingualDeskWidget.swift
+// Targets: Widget
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
-    }
-
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
-        completion(entry)
-    }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
-    }
+/// Widget 条目内容：读到的快照，或 “Open BilingualDesk once to finish setup”。
+enum ReadingWidgetContent: Equatable {
+    case snapshot(WidgetSnapshot)
+    case needsSetup                                               // E-WIDGET-NEEDS-SETUP
 }
 
-struct SimpleEntry: TimelineEntry {
+struct ReadingWidgetEntry: TimelineEntry {
     let date: Date
-    let emoji: String
+    let content: ReadingWidgetContent
 }
 
-struct BilingualDeskWidgetEntryView : View {
-    var entry: Provider.Entry
+/// 只读 App Group 里的 WidgetSnapshot.json（02 §9.11、§11；§13 C9）。
+struct ReadingWidgetProvider: TimelineProvider {
+    func placeholder(in context: Context) -> ReadingWidgetEntry {
+        Self.sampleEntry
+    }
 
-    var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
+    func getSnapshot(in context: Context, completion: @escaping (ReadingWidgetEntry) -> Void) {
+        completion(context.isPreview ? Self.sampleEntry : Self.loadEntry(now: Date()))
+    }
 
-            Text("Emoji:")
-            Text(entry.emoji)
+    func getTimeline(in context: Context, completion: @escaping (Timeline<ReadingWidgetEntry>) -> Void) {
+        // 只有一个条目、不自行安排下一次刷新：内容变化由主 App 发布快照后 reloadAllTimelines() 驱动。
+        completion(Timeline(entries: [Self.loadEntry(now: Date())], policy: .never))
+    }
+
+    static func loadEntry(now: Date) -> ReadingWidgetEntry {
+        guard
+            let container = AppGroupContainer.make(),
+            let snapshot = try? container.readWidgetSnapshot()
+        else {
+            return ReadingWidgetEntry(date: now, content: .needsSetup)
         }
+        return ReadingWidgetEntry(date: now, content: .snapshot(snapshot))
+    }
+
+    /// 小组件库预览与占位用的示例（01 §4.10）；真实时间线不使用。
+    static var sampleEntry: ReadingWidgetEntry {
+        let snapshot = WidgetSnapshot(
+            schemaVersion: SharedConfiguration.widgetSnapshotSchemaVersion,
+            generatedAt: Date(),
+            book: WidgetBookSummary(id: UUID(), title: AppText.T.widgetSampleTitle, progressPercent: 37),
+            latestCard: WidgetCardSummary(
+                id: UUID(),
+                word: AppText.T.widgetSampleWord,
+                meaning: AppText.T.widgetSampleMeaning
+            ),
+            cardsNeedingChineseCount: 2
+        )
+        return ReadingWidgetEntry(date: Date(), content: .snapshot(snapshot))
     }
 }
 
-struct BilingualDeskWidget: Widget {
-    let kind: String = "BilingualDeskWidget"
+/// “BilingualDesk” 小组件：small + medium，不可配置（02 §9.11）。
+struct BilingualDeskReadingWidget: Widget {
+    let kind: String = SharedConfiguration.widgetKind
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            BilingualDeskWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+        StaticConfiguration(kind: kind, provider: ReadingWidgetProvider()) { entry in
+            ReadingWidgetView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName(AppText.T.appName)
+        .description(AppText.T.widgetDescription)
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
-#Preview(as: .systemSmall) {
-    BilingualDeskWidget()
-} timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+@main
+struct BilingualDeskWidgetBundle: WidgetBundle {
+    var body: some Widget {
+        BilingualDeskReadingWidget()
+    }
 }

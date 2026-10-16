@@ -70,9 +70,15 @@ struct CardDetailView: View {
     }
 
     /// 真正离开本页：先清未保存标记（路由随后处理挂起的深链），再出栈。
+    /// 有挂起的深链时不播出栈动画：路由紧接着会再改一次导航栈，出栈动画中途改栈会停在一张空白页上。
     private func leavePage() {
+        let hasPendingLink = router.pendingDeepLink != nil
         router.hasUnsavedCardDraft = false
-        dismiss()
+        if hasPendingLink {
+            withTransaction(\.disablesAnimations, true) { router.vocabularyPath = [] }
+        } else {
+            dismiss()
+        }
     }
 
     // MARK: - 内容
