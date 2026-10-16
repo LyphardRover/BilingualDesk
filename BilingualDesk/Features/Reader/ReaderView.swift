@@ -9,6 +9,8 @@ struct ReaderView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isChapterListPresented = false
     @State private var isSettingsPresented = false
+    /// 正文可见区域的上沿（全局坐标）：导航栏和顶部提示条的下沿。
+    @State private var visibleTop: CGFloat = 0
 
     init(bookID: UUID, startOrder: Int?, dependencies: AppDependencies) {
         self._viewModel = StateObject(wrappedValue: ReaderViewModel(bookID: bookID, startOrder: startOrder, dependencies: dependencies))
@@ -87,9 +89,24 @@ struct ReaderView: View {
                         .listRowSeparator(.hidden)
                         .onAppear { viewModel.paragraphAppeared(paragraph) }
                         .onDisappear { viewModel.paragraphDisappeared(paragraph) }
+                        .background {
+                            // 放在背景里测量：直接挂在行上会挡住 listRowInsets、listRowSeparator、listRowBackground。
+                            Color.clear.onGeometryChange(for: Bool.self) { [visibleTop] proxy in
+                                // 底边在可见区域上沿之上：整段被导航栏或提示条挡住，不算「屏幕最上方的段」。
+                                proxy.frame(in: .global).maxY <= visibleTop + 1
+                            } action: { isCovered in
+                                viewModel.paragraphCoverageChanged(paragraph, isCovered: isCovered)
+                            }
+                        }
                 }
             }
             .listStyle(.plain)
+            // List 的布局区域在导航栏和顶部提示条下面（内容仍可滚到它们后面），所以它的上沿就是可见区域上沿。
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.frame(in: .global).minY
+            } action: { top in
+                visibleTop = top
+            }
             // 去掉 List 默认的最小行高（约 44 pt），否则单行短段会被撑高，段间距不再是 01 §4.3 的 12 pt。
             .environment(\.defaultMinListRowHeight, 1)
             .onChange(of: viewModel.scrollTargetOrder, initial: true) { _, target in
@@ -243,7 +260,7 @@ struct ReaderView: View {
         Binding(
             get: { viewModel.alertMessage != nil },
             set: { isPresented in
-                if !isPresented { viewModel.alertMessage = nil }
+                if !isPresented && viewModel.alertMessage != nil { viewModel.alertMessage = nil }
             }
         )
     }

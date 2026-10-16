@@ -129,6 +129,8 @@ struct CardDetailView: View {
                 }
             }
         }
+        // “My Meaning” 是多行输入框，回车只换行：滚动时收起键盘，否则下面的语境、来源和删除都被键盘挡住。
+        .scrollDismissesKeyboard(.immediately)
     }
 
     private func wordSection(_ card: VocabularyCard) -> some View {

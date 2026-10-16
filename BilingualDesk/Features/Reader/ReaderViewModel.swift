@@ -65,8 +65,13 @@ final class ReaderViewModel: ObservableObject {
     private var isLoadStarted = false
     /// 打开时的定位段：还没有任何段出现在屏幕上时，它就是「当前段」。
     private var openedAtOrder = 0
-    /// 当前可见段的序号集合（RD-3）。
+    /// 当前可见段的序号集合（RD-3）。List 会渲染导航栏下面被挡住的行，所以这里也包含它们（用于预取翻译）。
     private var visibleOrders: Set<Int> = []
+    /// 整段被导航栏或顶部提示条挡住的段；「屏幕最上方的段」要排除它们。
+    /// 记的是每行最后一次报告的状态，离开屏幕时不移除：onGeometryChange 只在值变化时回调，
+    /// 一行在被挡住时离开、又在被挡住时回来（例如切换标签再回来），不会再报一次 true。
+    /// 不在屏幕上的行不影响结果，因为计算时只从 visibleOrders 里减。
+    private var coveredOrders: Set<Int> = []
     /// 最近一次「稳定」的可见最小段：在下一轮主线程循环才更新，
     /// 这样离开页面时一连串 onDisappear 把集合清空，也不会把位置记错。
     private var settledTopOrder: Int?
@@ -93,9 +98,13 @@ final class ReaderViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    /// 可见段最小序号；没有可见段时用最近一次稳定的可见段，再没有就用打开时的定位段。
+    /// 屏幕最上方的段：没被挡住的可见段里序号最小的；没有时用最近一次稳定值，再没有就用打开时的定位段。
     var currentParagraphOrder: Int {
-        visibleOrders.min() ?? settledTopOrder ?? openedAtOrder
+        topUncoveredOrder ?? settledTopOrder ?? openedAtOrder
+    }
+
+    private var topUncoveredOrder: Int? {
+        visibleOrders.subtracting(coveredOrders).min()
     }
 
     // MARK: - 打开与可见段
@@ -150,6 +159,16 @@ final class ReaderViewModel: ObservableObject {
         visibleOrders.remove(paragraph.order)
         scheduleSettle()
         translations.withdraw(paragraph)
+    }
+
+    /// 段被导航栏或顶部提示条整段挡住 / 重新露出。
+    func paragraphCoverageChanged(_ paragraph: ReadingParagraph, isCovered: Bool) {
+        if isCovered {
+            coveredOrders.insert(paragraph.order)
+        } else {
+            coveredOrders.remove(paragraph.order)
+        }
+        scheduleSettle()
     }
 
     // MARK: - 选词
@@ -285,6 +304,8 @@ final class ReaderViewModel: ObservableObject {
             dependencies.activeReader = nil
         }
         await savePosition()
+        // onDisappear 在返回动画结束后才触发，书库那时可能已经读过一次旧进度：保存完再通知它刷新。
+        dependencies.router.readingPositionSaved()
     }
 
     func enterBackground() async {
@@ -382,7 +403,7 @@ final class ReaderViewModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             self.isSettleScheduled = false
-            if let top = self.visibleOrders.min() {
+            if let top = self.topUncoveredOrder {
                 self.settledTopOrder = top
             }
         }
