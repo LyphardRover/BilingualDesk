@@ -40,6 +40,8 @@ final class AppRouter: ObservableObject {
             }
         }
     }
+    /// 阅读页离开并保存阅读位置后加 1。返回书库时立即做的那次读取可能早于保存完成，书库据此再读一次进度。
+    @Published private(set) var readingPositionRevision = 0
     private(set) var pendingDeepLink: DeepLink?
 
     private var targetExists: (@MainActor (DeepLink) async throws -> Bool)?
@@ -58,6 +60,11 @@ final class AppRouter: ObservableObject {
         selectedTab = .vocabulary
         guard !hasUnsavedCardDraft else { return }
         vocabularyPath = [.card(cardID)]
+    }
+
+    /// 阅读页保存完阅读位置后调用（ReaderViewModel.leave）。
+    func readingPositionSaved() {
+        readingPositionRevision += 1
     }
 
     func showAlert(_ message: String) {

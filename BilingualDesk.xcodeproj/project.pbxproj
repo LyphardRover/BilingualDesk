@@ -61,9 +61,11 @@
 		22BD69B38B3520854B20630F /* Exceptions for "BilingualDesk" folder in "BilingualDeskWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Shared/AppGroupContainer.swift,
 				Shared/AppText.swift,
 				Shared/DeepLink.swift,
 				Shared/SharedConfiguration.swift,
+				Shared/SharedModels.swift,
 			);
 			target = D627CACEBFAAA465612B83CD /* BilingualDeskWidgetExtension */;
 		};
@@ -77,8 +79,10 @@
 		5AC5F71D10B964852AD84E09 /* Exceptions for "BilingualDesk" folder in "BilingualDeskShare" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Shared/AppGroupContainer.swift,
 				Shared/AppText.swift,
 				Shared/SharedConfiguration.swift,
+				Shared/SharedModels.swift,
 			);
 			target = 4C746F2D699A031CE4B1870E /* BilingualDeskShare */;
 		};

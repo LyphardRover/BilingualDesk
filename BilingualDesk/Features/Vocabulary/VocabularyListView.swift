@@ -165,7 +165,7 @@ struct VocabularyListView: View {
         Binding(
             get: { viewModel.alertMessage != nil },
             set: { isPresented in
-                if !isPresented { viewModel.alertMessage = nil }
+                if !isPresented && viewModel.alertMessage != nil { viewModel.alertMessage = nil }
             }
         )
     }

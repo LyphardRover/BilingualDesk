@@ -196,7 +196,7 @@ struct ImportPreviewView: View {
         Binding(
             get: { viewModel.duplicateBook != nil },
             set: { isPresented in
-                if !isPresented { viewModel.duplicateBook = nil }
+                if !isPresented && viewModel.duplicateBook != nil { viewModel.duplicateBook = nil }
             }
         )
     }
@@ -205,7 +205,7 @@ struct ImportPreviewView: View {
         Binding(
             get: { viewModel.saveErrorMessage != nil },
             set: { isPresented in
-                if !isPresented { viewModel.saveErrorMessage = nil }
+                if !isPresented && viewModel.saveErrorMessage != nil { viewModel.saveErrorMessage = nil }
             }
         )
     }

@@ -59,6 +59,10 @@ struct LibraryView: View {
             // 从阅读页返回书库：刷新进度与打开时间。
             if isAtRoot { Task { await viewModel.load() } }
         }
+        .onChange(of: router.readingPositionRevision) {
+            // 阅读页保存完位置后再读一次（上面那次可能早于保存完成）。
+            Task { await viewModel.load() }
+        }
         .fileImporter(isPresented: $isFileImporterPresented, allowedContentTypes: [.plainText]) { result in
             Task { await viewModel.importPickedFile(result) }
         }
@@ -215,7 +219,7 @@ struct LibraryView: View {
         Binding(
             get: { viewModel.alertMessage != nil },
             set: { isPresented in
-                if !isPresented { viewModel.alertMessage = nil }
+                if !isPresented && viewModel.alertMessage != nil { viewModel.alertMessage = nil }
             }
         )
     }
