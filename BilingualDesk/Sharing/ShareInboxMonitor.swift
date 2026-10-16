@@ -41,19 +41,24 @@ final class ShareInboxMonitor: ObservableObject {
         return items.isEmpty ? .hidden : .pending(count: items.count)
     }
 
+    /// 只在内容真的变了时才写回：@Published 值相同也会通知，书库和单词本会跟着无谓地重绘。
+    /// 冷启动时这次重绘和深链改导航栈落在同一帧，SwiftUI 会报 “NavigationRequestObserver tried to update multiple times per frame”。
     func refresh() {
         guard let container else {
             // AG-7：App Group 不可用时是空操作。
-            items = []
-            scanErrorMessage = nil
+            update(items: [], scanErrorMessage: nil)
             return
         }
         do {
-            items = try container.inboxItems()
-            scanErrorMessage = nil
+            update(items: try container.inboxItems(), scanErrorMessage: nil)
         } catch {
-            scanErrorMessage = AppText.E.inboxScanFailed
+            update(items: items, scanErrorMessage: AppText.E.inboxScanFailed)
         }
+    }
+
+    private func update(items newItems: [InboxItem], scanErrorMessage newMessage: String?) {
+        if items != newItems { items = newItems }
+        if scanErrorMessage != newMessage { scanErrorMessage = newMessage }
     }
 
     /// 读出文件内容，交给导入预览。读文件在主线程以外进行（C4）。
