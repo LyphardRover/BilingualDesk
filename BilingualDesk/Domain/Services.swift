@@ -22,8 +22,8 @@ protocol TXTParsing: Sendable {
 // MARK: - 翻译
 
 enum TranslationAvailability: Equatable, Sendable {
-    case ready                      // 语言已安装
-    case needsDownload              // 支持但未下载
+    case ready                      // 可以去翻译（语言已安装；真机 F40 对 .supported 也报这个，SV-1）
+    case needsDownload              // 支持但未下载（真机 F40 不再返回，真没下载由翻译报 notInstalled，SV-2）
     case unsupportedLanguagePair
     case simulatorUnsupported
 }

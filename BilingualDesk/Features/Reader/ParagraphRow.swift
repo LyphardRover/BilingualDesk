@@ -10,6 +10,8 @@ struct ParagraphRow: View {
     let englishFontSize: Double
     let chineseFontSize: Double
     let isBeingReadAloud: Bool
+    /// 朗读暂停在这一段：保留浅蓝背景，标出 “Resume” 从哪里接着读。
+    let isReadAloudPaused: Bool
     let onSelection: (SelectionAction, ParagraphSelection) -> Void
     let onRetryTranslation: () -> Void
     let onPrepareLanguage: () -> Void
@@ -31,8 +33,8 @@ struct ParagraphRow: View {
                     ))
                 }
             )
-            // 正在朗读的段：除了浅蓝背景，还给出无障碍值 “Reading aloud”（01 §7 第 4 条）。
-            .accessibilityValue(isBeingReadAloud ? AppText.T.a11yReadingNow : "")
+            // 朗读段除了浅蓝背景，还给出无障碍值：正在读 “Reading aloud”，暂停 “Paused at paragraph N”（01 §7 第 4 条）。
+            .accessibilityValue(readAloudAccessibilityValue)
 
             // 章节标题行永不翻译；“English Only” 模式下中文行不存在。
             if mode == .bilingual && !paragraph.isChapterHeading {
@@ -40,7 +42,14 @@ struct ParagraphRow: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .listRowBackground(isBeingReadAloud ? Color.accentColor.opacity(0.15) : Color.clear)
+        .listRowBackground((isBeingReadAloud || isReadAloudPaused) ? Color.accentColor.opacity(0.15) : Color.clear)
+    }
+
+    /// 正在朗读 → “Reading aloud”；暂停在这一段 → 与朗读栏同一句 “Paused at paragraph N”（段号从 1 数）。
+    private var readAloudAccessibilityValue: String {
+        if isBeingReadAloud { return AppText.T.a11yReadingNow }
+        if isReadAloudPaused { return AppText.T.readerPausedStatus(order: paragraph.order + 1) }
+        return ""
     }
 
     @ViewBuilder

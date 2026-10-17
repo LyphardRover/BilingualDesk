@@ -123,6 +123,7 @@ struct ReaderView: View {
             englishFontSize: preferences.englishFontSize,
             chineseFontSize: preferences.chineseFontSize,
             isBeingReadAloud: isBeingReadAloud(paragraph),
+            isReadAloudPaused: isReadAloudPaused(paragraph),
             onSelection: { action, selection in
                 viewModel.handleSelection(action, selection)
             },
@@ -137,6 +138,14 @@ struct ReaderView: View {
 
     private func isBeingReadAloud(_ paragraph: ReadingParagraph) -> Bool {
         if case let .reading(bookID, order) = viewModel.speechState {
+            return bookID == viewModel.bookID && order == paragraph.order
+        }
+        return false
+    }
+
+    /// 朗读暂停在本书这一段（“Paused at paragraph N”）。
+    private func isReadAloudPaused(_ paragraph: ReadingParagraph) -> Bool {
+        if case let .paused(bookID, order) = viewModel.speechState {
             return bookID == viewModel.bookID && order == paragraph.order
         }
         return false
@@ -159,6 +168,19 @@ struct ReaderView: View {
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
+        // 书名放在标题区：右上两个文字按钮很宽，放不下时先缩小（最小 0.7 倍）再截断，仍是一行（01 §4.3）。
+        // 系统导航标题不随动态字体变大，这里同样限制在默认大小；大字号下长按标题可在放大预览里看完整书名。
+        ToolbarItem(placement: .title) {
+            if let title = viewModel.book?.title {
+                Text(title)
+                    .font(.headline)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                    .dynamicTypeSize(...DynamicTypeSize.large)
+                    .accessibilityAddTraits(.isHeader)
+                    .accessibilityShowsLargeContentViewer()
+            }
+        }
         ToolbarItem(placement: .topBarTrailing) {
             Button(AppText.T.readerToc) { isChapterListPresented = true }
                 .disabled(viewModel.phase != .loaded)

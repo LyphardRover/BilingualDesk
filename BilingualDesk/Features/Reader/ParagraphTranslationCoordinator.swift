@@ -75,7 +75,7 @@ final class ParagraphTranslationCoordinator: ObservableObject {
         startNextIfIdle()
     }
 
-    /// 段滑出屏幕：只撤回还在「等待」的段。
+    /// 段滑出屏幕或被导航栏整段挡住：只撤回还在「等待」的段。
     func withdraw(_ paragraph: ReadingParagraph) {
         guard states[paragraph.id] == .waiting else { return }
         queue.removeAll { $0.id == paragraph.id }

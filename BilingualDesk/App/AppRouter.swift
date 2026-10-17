@@ -42,6 +42,8 @@ final class AppRouter: ObservableObject {
     }
     /// 阅读页离开并保存阅读位置后加 1。返回书库时立即做的那次读取可能早于保存完成，书库据此再读一次进度。
     @Published private(set) var readingPositionRevision = 0
+    /// 后台机器提示写完一次（成功或失败）加 1。单词本据此再读一次，“Machine hint pending” 不用等下次出现才更新。
+    @Published private(set) var vocabularyHintRevision = 0
     private(set) var pendingDeepLink: DeepLink?
 
     private var targetExists: (@MainActor (DeepLink) async throws -> Bool)?
@@ -65,6 +67,11 @@ final class AppRouter: ObservableObject {
     /// 阅读页保存完阅读位置后调用（ReaderViewModel.leave）。
     func readingPositionSaved() {
         readingPositionRevision += 1
+    }
+
+    /// VocabularyHintRunner 的一次任务结束后调用。
+    func vocabularyHintFinished() {
+        vocabularyHintRevision += 1
     }
 
     func showAlert(_ message: String) {

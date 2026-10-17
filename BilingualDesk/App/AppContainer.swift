@@ -26,11 +26,13 @@ final class AppContainer: ObservableObject {
 
     /// 只创建不碰 Core Data 的对象（单元测试宿主里被创建也无害）。
     init() {
-        router = AppRouter()
+        let router = AppRouter()
+        self.router = router
         preferences = ReaderPreferences()
         sharedContainer = AppGroupContainer.make()
         inboxMonitor = ShareInboxMonitor(container: sharedContainer)
-        speechPlayer = SpeechPlayer()
+        // 音频会话在后台队列上激活，失败时用全局 Alert 显示 E-SPEECH-AUDIO-UNAVAILABLE（SV-5）。
+        speechPlayer = SpeechPlayer(reportError: { error in router.showAlert(error.message) })
         translator = AppleTranslationProvider()
     }
 
@@ -55,7 +57,8 @@ final class AppContainer: ObservableObject {
         let vocabulary = CoreDataVocabularyRepository(stack: stack)
         let publisher = WidgetSnapshotPublisher(books: books, vocabulary: vocabulary, container: sharedContainer)
         let hintRunner = VocabularyHintRunner(
-            generateHint: GenerateVocabularyHint(vocabulary: vocabulary, translator: translator, widget: publisher)
+            generateHint: GenerateVocabularyHint(vocabulary: vocabulary, translator: translator, widget: publisher),
+            hintFinished: { [router] in router.vocabularyHintFinished() }
         )
         let dependencies = AppDependencies(
             books: books,

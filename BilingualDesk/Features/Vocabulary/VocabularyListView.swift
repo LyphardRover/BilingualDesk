@@ -43,6 +43,10 @@ struct VocabularyListView: View {
             // 从词卡详情返回：刷新（我的理解、删除都可能改变列表）。
             if isAtRoot { Task { await viewModel.load() } }
         }
+        .onChange(of: router.vocabularyHintRevision) {
+            // 后台机器提示写完（真机要几秒）：再读一次，按当前搜索与筛选显示结果。
+            Task { await viewModel.load() }
+        }
         .confirmationDialog(
             AppText.T.vocabDeleteConfirmTitle,
             isPresented: $isDeleteDialogPresented,
