@@ -27,12 +27,14 @@ final class AppleTranslationProvider: TranslationProviding {
         #if targetEnvironment(simulator)
         return .simulatorUnsupported
         #else
-        let status = await LanguageAvailability().status(from: Self.sourceLanguage, to: Self.targetLanguage)
-        switch status {
+        switch await Self.languageStatus() {
         case .installed:
             return .ready
         case .supported:
-            return .needsDownload
+            // 真机实测：语言已经下载时，闲置一阵后的第一次查询也报 .supported，翻译一次之后才变 .installed。
+            // 只凭它就拦下，机器提示会记成失败、阅读页会弹出准备按钮。所以照常去翻译：
+            // 真没下载时 translate 会抛 TranslationError.notInstalled，再转成 .notInstalled（SV-2）。
+            return .ready
         case .unsupported:
             return .unsupportedLanguagePair
         @unknown default:
@@ -54,19 +56,32 @@ final class AppleTranslationProvider: TranslationProviding {
 
         // 每次调用新建一个会话，用完丢弃（C6）。
         let session = TranslationSession(installedSource: Self.sourceLanguage, target: Self.targetLanguage)
+        let timeout = ChunkTimeout()
         return try await withTaskCancellationHandler {
             var translatedChunks: [String] = []
             for chunk in chunks {
                 try Task.checkCancellation()
+                timeout.start(cancelling: session, after: Self.chunkTimeout)
+                defer { timeout.stop() }
                 do {
                     let response = try await session.translate(chunk)
                     translatedChunks.append(response.targetText)
                 } catch {
+                    if timeout.didFire {
+                        // 超时：语言没准备好时交给准备按钮，否则算这次没成功（读者可重试）。
+                        if await Self.languageStatus() == .installed {
+                            throw TranslationProviderError.failed
+                        }
+                        throw TranslationProviderError.notInstalled
+                    }
                     if error is CancellationError || Task.isCancelled {
                         throw CancellationError()
                     }
-                    // 任一块失败：重新查语言状态，区分「没下载」和「这次没成功」（SV-2）。
-                    if await availability() == .needsDownload {
+                    // 任一块失败：区分「没下载」和「这次没成功」（SV-2）。先看错误本身，再看语言状态。
+                    if TranslationError.notInstalled ~= error {
+                        throw TranslationProviderError.notInstalled
+                    }
+                    if await Self.languageStatus() == .supported {
                         throw TranslationProviderError.notInstalled
                     }
                     throw TranslationProviderError.failed
@@ -79,6 +94,37 @@ final class AppleTranslationProvider: TranslationProviding {
         }
         #endif
     }
+
+    #if !targetEnvironment(simulator)
+    /// 单块翻译最长等多久。正常 0.1–1 秒；超过就取消，免得一个不返回的请求堵住整条 FIFO 队列。
+    private static let chunkTimeout: Duration = .seconds(20)
+
+    private static func languageStatus() async -> LanguageAvailability.Status {
+        await LanguageAvailability().status(from: sourceLanguage, to: targetLanguage)
+    }
+
+    /// 到时间还没翻完就取消会话，并记下是超时（与读者离开页面造成的取消区分开）。
+    @MainActor
+    private final class ChunkTimeout {
+        private(set) var didFire = false
+        private var task: Task<Void, Never>?
+
+        func start(cancelling session: TranslationSession, after limit: Duration) {
+            task?.cancel()
+            task = Task { @MainActor [weak self] in
+                try? await Task.sleep(for: limit)
+                guard !Task.isCancelled, let self else { return }
+                self.didFire = true
+                session.cancel()
+            }
+        }
+
+        func stop() {
+            task?.cancel()
+            task = nil
+        }
+    }
+    #endif
 
     // MARK: FIFO 门
 

@@ -7,10 +7,13 @@ import Foundation
 @MainActor
 final class VocabularyHintRunner: VocabularyHintRequesting {
     private let generateHint: GenerateVocabularyHint
+    private let hintFinished: @MainActor () -> Void
     private var runningTasks: [UUID: Task<Void, Never>] = [:]
 
-    init(generateHint: GenerateVocabularyHint) {
+    /// hintFinished：每个任务结束（成功、失败或丢弃）后调用一次，用来通知单词本刷新。
+    init(generateHint: GenerateVocabularyHint, hintFinished: @escaping @MainActor () -> Void = {}) {
         self.generateHint = generateHint
+        self.hintFinished = hintFinished
     }
 
     func requestHint(for cardID: UUID) {
@@ -27,6 +30,7 @@ final class VocabularyHintRunner: VocabularyHintRequesting {
                 #endif
             }
             self?.runningTasks[cardID] = nil
+            self?.hintFinished()
         }
     }
 }

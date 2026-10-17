@@ -36,6 +36,8 @@ struct LanguagePreparationModifier: ViewModifier {
                     success = false
                 }
                 await MainActor.run {
+                    // 用完清回 nil：配置留着的话，阅读页重新出现（例如切到别的标签再回来）时 translationTask 会自己再跑一次。
+                    configuration = nil
                     isRequested = false
                     onFinished(success)
                 }

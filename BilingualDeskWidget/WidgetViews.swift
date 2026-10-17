@@ -84,9 +84,7 @@ struct ContinueReadingSection: View {
                 Text(AppText.T.widgetContinueReading)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Text(book.title)
-                    .font(.headline)
-                    .lineLimit(3)
+                WidgetHeadline(text: book.title, lineLimit: 3)
                 Spacer(minLength: 0)
                 Text(AppText.T.widgetProgress(percent: book.progressPercent))
                     .font(.caption)
@@ -119,9 +117,7 @@ struct LatestCardSection: View {
                 Text(AppText.T.widgetLatestCard)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Text(card.word)
-                    .font(.headline)
-                    .lineLimit(2)
+                WidgetHeadline(text: card.word, lineLimit: 2)
                 Text(card.meaning)
                     .font(.subheadline)
                     .lineLimit(2)
@@ -139,6 +135,41 @@ struct LatestCardSection: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+}
+
+/// 书名、单词的 headline：最宽的词放得下就照常换行（最多 lineLimit 行）；
+/// 放不下（例如没有空格的长文件名）就改为一行并缩小，不在词中间断开。
+/// 只加 minimumScaleFactor 不够：允许多行时文字会先在词中间断行，根本不会缩小。
+struct WidgetHeadline: View {
+    let text: String
+    let lineLimit: Int
+
+    /// 用系统分词，不按空格切：中文书名会切成一个个词，照常换行；没有空格的英文长文件名仍是一个词。
+    private var words: [String] {
+        var result: [String] = []
+        text.enumerateSubstrings(in: text.startIndex..., options: .byWords) { word, _, _, _ in
+            if let word { result.append(word) }
+        }
+        return result.isEmpty ? [text] : result
+    }
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            // 理想宽度 = 最宽那个词的宽度（逐个量，不按字数猜）：它放得下才用这一种
+            ZStack(alignment: .topLeading) {
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(words.indices, id: \.self) { index in
+                        Text(words[index]).font(.headline).lineLimit(1).fixedSize()
+                    }
+                }
+                .frame(height: 0)   // 只用来量宽度，不占高度
+                .hidden()
+                Text(text).font(.headline).lineLimit(lineLimit)
+                    .frame(minWidth: 0, idealWidth: 0, maxWidth: .infinity, alignment: .leading)
+            }
+            Text(text).font(.headline).lineLimit(1).minimumScaleFactor(0.5)
+        }
     }
 }
 

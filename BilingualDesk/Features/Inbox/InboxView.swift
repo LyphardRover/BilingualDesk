@@ -5,17 +5,20 @@ import SwiftUI
 /// Pending Imports sheet（待导入文件，01 §4.8；02 §9.10 F47）。自带 NavigationStack，在栈内推入导入预览。
 struct InboxView: View {
     @ObservedObject private var monitor: ShareInboxMonitor
-    @ObservedObject private var router: AppRouter
+    /// 本页只调用路由、不读它的状态，所以不观察：路由每变一次（包括推入阅读页），本页和它的导航栈都会跟着重绘。
+    private let router: AppRouter
     private let dependencies: AppDependencies
 
     @State private var candidate: ImportCandidate?
     @State private var loadingItemID: UUID?
     @State private var itemPendingDeletion: InboxItem?
     @State private var alertMessage: String?
+    /// 导入成功或 “Open Existing Book” 后要打开的书；等本 sheet 收起后再打开（见 onDisappear）。
+    @State private var bookToOpenAfterClose: UUID?
 
     init(monitor: ShareInboxMonitor, dependencies: AppDependencies) {
         _monitor = ObservedObject(wrappedValue: monitor)
-        _router = ObservedObject(wrappedValue: dependencies.router)
+        router = dependencies.router
         self.dependencies = dependencies
     }
 
@@ -60,6 +63,13 @@ struct InboxView: View {
         }
         .onAppear {
             monitor.refresh()
+        }
+        .onDisappear {
+            // sheet 收起动画结束后才推入阅读页。若在关 sheet 的同一帧里推入，SwiftUI 会报
+            // “NavigationRequestObserver tried to update multiple times per frame”。
+            guard let bookID = bookToOpenAfterClose else { return }
+            bookToOpenAfterClose = nil
+            router.openBook(bookID, startOrder: nil)
         }
     }
 
@@ -150,16 +160,15 @@ struct InboxView: View {
         }
     }
 
+    /// 导入成功或确认重复：只关 sheet，不把预览出栈（预览随 sheet 一起收起），阅读页等 sheet 收起后再打开。
     private func finishImport(_ result: ImportPreviewResult, for candidate: ImportCandidate) {
         switch result {
         case .imported(let book), .duplicateOpenExisting(let book):
             removeImportedItem(of: candidate)
-            self.candidate = nil
+            bookToOpenAfterClose = book.id
             router.isInboxPresented = false
-            router.openBook(book.id, startOrder: nil)
         case .duplicateBackToLibrary:
             removeImportedItem(of: candidate)
-            self.candidate = nil
             router.isInboxPresented = false
         case .cancelled:
             // 退回列表，文件保留（01 §4.2）。

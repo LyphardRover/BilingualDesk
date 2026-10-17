@@ -29,6 +29,13 @@ final class SpeechPlayer: NSObject, SpeechPlaying, AVSpeechSynthesizerDelegate {
 
     private let stateSubject = CurrentValueSubject<SpeechState, Never>(.idle)
     private let synthesizer = AVSpeechSynthesizer()
+    /// 音频会话的设置、激活、释放会阻塞调用线程（主线程上调用会被系统报 Hang Risk），
+    /// 全部放到这条串行队列按调用顺序执行，后排的操作总是覆盖先排的（SV-5）。
+    private let sessionQueue = DispatchQueue(label: "com.William.BilingualDesk.audioSession", qos: .userInitiated)
+    /// 已排队激活、还没排队释放；没激活过就不释放（例如没朗读时进入后台）。
+    private var isSessionRequested = false
+    /// 激活在会话队列上异步完成，失败时已无法抛给调用方，改由这里报告（AppContainer 接到全局 Alert）。
+    private let reportError: @MainActor (SpeechError) -> Void
     private var generation = 0
     private var queuedUtterances: [ObjectIdentifier: QueuedUtterance] = [:]
     private var remainingParagraphs: [SpeechParagraph] = []
@@ -38,7 +45,8 @@ final class SpeechPlayer: NSObject, SpeechPlaying, AVSpeechSynthesizerDelegate {
     /// 暂停时上一段恰好读完：继续时直接读下一段。
     private var advanceWhenResumed = false
 
-    override init() {
+    init(reportError: @escaping @MainActor (SpeechError) -> Void) {
+        self.reportError = reportError
         super.init()
         synthesizer.delegate = self
     }
@@ -51,7 +59,11 @@ final class SpeechPlayer: NSObject, SpeechPlaying, AVSpeechSynthesizerDelegate {
         guard !word.isEmpty else { return }
         let voice = try prepareToSpeak()
         state = .pronouncing
-        speak(word, voice: voice, rate: rate, isPronunciation: true)
+        let requestGeneration = generation
+        Task { @MainActor in
+            guard await self.activateAudioSession(for: requestGeneration) else { return }
+            self.speak(word, voice: voice, rate: rate, isPronunciation: true)
+        }
     }
 
     func startReading(bookID: UUID, paragraphs: [SpeechParagraph], rate: SpeechRate) throws {
@@ -59,13 +71,23 @@ final class SpeechPlayer: NSObject, SpeechPlaying, AVSpeechSynthesizerDelegate {
         let readable = paragraphs.filter {
             !$0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
-        guard !readable.isEmpty else { return }
+        guard let first = readable.first else { return }
         let voice = try prepareToSpeak()
         self.rate = rate
         readingBookID = bookID
         readingVoice = voice
         remainingParagraphs = readable
-        speakNextParagraph()
+        // 先进入「朗读中」：会话激活期间离开页面、进入后台、移出书库都能看到状态并 stop()。
+        state = .reading(bookID: bookID, paragraphOrder: first.order)
+        let requestGeneration = generation
+        Task { @MainActor in
+            guard await self.activateAudioSession(for: requestGeneration) else { return }
+            if case .paused = self.state {
+                self.advanceWhenResumed = true      // 激活期间被暂停：继续时再读
+            } else {
+                self.speakNextParagraph()
+            }
+        }
     }
 
     func setRate(_ rate: SpeechRate) {
@@ -167,12 +189,10 @@ final class SpeechPlayer: NSObject, SpeechPlaying, AVSpeechSynthesizerDelegate {
         state = .idle
     }
 
-    /// 选声音并激活音频会话；任何一步失败都把会话还回去再抛错。
+    /// 选声音；失败时把音频会话还回去再抛错。激活在真正开始说话前异步完成。
     private func prepareToSpeak() throws -> AVSpeechSynthesisVoice {
         do {
-            let voice = try Self.englishVoice()
-            try activateAudioSession()
-            return voice
+            return try Self.englishVoice()
         } catch {
             deactivateAudioSession()
             throw error
@@ -190,18 +210,41 @@ final class SpeechPlayer: NSObject, SpeechPlaying, AVSpeechSynthesizerDelegate {
         throw SpeechError.noEnglishVoice
     }
 
-    /// SV-5：每次开始说话前设置 .playback + .spokenAudio 并激活。
-    private func activateAudioSession() throws {
-        let session = AVAudioSession.sharedInstance()
-        do {
-            try session.setCategory(.playback, mode: .spokenAudio)
-            try session.setActive(true)
-        } catch {
-            throw SpeechError.audioSessionUnavailable
+    /// SV-5：每次开始说话前在会话队列上设置 .playback + .spokenAudio 并激活，主 actor 只挂起等结果。
+    /// 返回 true = 已激活且这次请求仍是当前代次；等待期间被 stop / pronounce / 新的 startReading 取代返回 false（SV-6）。
+    private func activateAudioSession(for requestGeneration: Int) async -> Bool {
+        // Task 开始前已被取代：不再激活，免得留下没人释放的会话。
+        guard requestGeneration == generation else { return false }
+        isSessionRequested = true
+        let queue = sessionQueue
+        let isActive = await withCheckedContinuation { (continuation: CheckedContinuation<Bool, Never>) in
+            queue.async {
+                let session = AVAudioSession.sharedInstance()
+                do {
+                    try session.setCategory(.playback, mode: .spokenAudio)
+                    try session.setActive(true)
+                    continuation.resume(returning: true)
+                } catch {
+                    continuation.resume(returning: false)
+                }
+            }
         }
+        guard requestGeneration == generation else { return false }
+        guard isActive else {
+            haltSpeech()
+            deactivateAudioSession()
+            reportError(.audioSessionUnavailable)
+            return false
+        }
+        return true
     }
 
+    /// 排在之前的激活之后释放；没请求过激活就什么也不做。
     private func deactivateAudioSession() {
-        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        guard isSessionRequested else { return }
+        isSessionRequested = false
+        sessionQueue.async {
+            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        }
     }
 }

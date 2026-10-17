@@ -52,7 +52,12 @@ final class ReaderViewModel: ObservableObject {
     @Published private(set) var chapters: [ReadingChapter] = []
     @Published private(set) var speechState: SpeechState
     @Published private(set) var isBookGone: Bool = false
-    @Published var scrollTargetOrder: Int?
+    /// 等待滚动的目标段：阅读页滚完后清成 nil。清掉时再排一次稳定，补上滚动期间暂停的翻译请求。
+    @Published var scrollTargetOrder: Int? {
+        didSet {
+            if scrollTargetOrder == nil && oldValue != nil { scheduleSettle() }
+        }
+    }
     @Published var banner: ReaderBanner?
     @Published var alertMessage: String?
     @Published var dictionaryLookup: DictionaryLookup?
@@ -65,7 +70,7 @@ final class ReaderViewModel: ObservableObject {
     private var isLoadStarted = false
     /// 打开时的定位段：还没有任何段出现在屏幕上时，它就是「当前段」。
     private var openedAtOrder = 0
-    /// 当前可见段的序号集合（RD-3）。List 会渲染导航栏下面被挡住的行，所以这里也包含它们（用于预取翻译）。
+    /// 当前可见段的序号集合（RD-3）。List 会渲染导航栏下面被挡住的行，所以这里也包含它们（不参与翻译请求，见 coveredOrders）。
     private var visibleOrders: Set<Int> = []
     /// 整段被导航栏或顶部提示条挡住的段；「屏幕最上方的段」要排除它们。
     /// 记的是每行最后一次报告的状态，离开屏幕时不移除：onGeometryChange 只在值变化时回调，
@@ -149,10 +154,8 @@ final class ReaderViewModel: ObservableObject {
 
     func paragraphAppeared(_ paragraph: ReadingParagraph) {
         visibleOrders.insert(paragraph.order)
+        // 翻译请求放到 scheduleSettle 的下一轮：那时已经知道这一行是否整段被导航栏挡住。
         scheduleSettle()
-        if isBilingual && !paragraph.isChapterHeading {
-            translations.request(paragraph)
-        }
     }
 
     func paragraphDisappeared(_ paragraph: ReadingParagraph) {
@@ -165,6 +168,8 @@ final class ReaderViewModel: ObservableObject {
     func paragraphCoverageChanged(_ paragraph: ReadingParagraph, isCovered: Bool) {
         if isCovered {
             coveredOrders.insert(paragraph.order)
+            // 被挡住时还在等待的段撤回：否则它在导航栏后面变高，同样会把下面的段往下推。
+            translations.withdraw(paragraph)
         } else {
             coveredOrders.remove(paragraph.order)
         }
@@ -388,8 +393,12 @@ final class ReaderViewModel: ObservableObject {
     }
 
     private func requestVisibleTranslations() {
-        guard phase == .loaded, isBilingual else { return }
-        for order in visibleOrders.sorted() where paragraphs.indices.contains(order) {
+        // 还有等待中的滚动（打开定位、目录跳转、朗读跟随）时先不请求：此时的可见段是滚动前的，
+        // 请求了会让目标段上方的行在导航栏后面变高，把目标段往下推。
+        guard phase == .loaded, isBilingual, scrollTargetOrder == nil else { return }
+        // 整段被挡住的段先不翻译：它在屏幕最上方的段之上变高，会把下面的段往下推，
+        // 打开时的定位和目录跳转就会偏到上一段。露出来时 paragraphCoverageChanged 会再排一次。
+        for order in visibleOrders.subtracting(coveredOrders).sorted() where paragraphs.indices.contains(order) {
             let paragraph = paragraphs[order]
             if !paragraph.isChapterHeading {
                 translations.request(paragraph)
@@ -405,6 +414,10 @@ final class ReaderViewModel: ObservableObject {
             self.isSettleScheduled = false
             if let top = self.topUncoveredOrder {
                 self.settledTopOrder = top
+            }
+            // 只在本页是当前阅读页时请求：离开页面时各行的 onDisappear 也会走到这里。
+            if self.dependencies.activeReader === self {
+                self.requestVisibleTranslations()
             }
         }
     }
